@@ -26,10 +26,6 @@ export const MovableElement = (props: MovableElementProps) => {
     setPan(true)
   }
 
-  const handleMouseLeave = (event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
-    setPan(false)
-  }
-
   const handleMouseUp = (event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
     setPan(false)
   }
@@ -40,8 +36,8 @@ export const MovableElement = (props: MovableElementProps) => {
     if (clientRect && pan) {
       setTransform({
         ...transform,
-        x: event.clientX - clientRect.width / 2,
-        y: event.clientY - clientRect.height / 2
+        x: event.clientX - clientRect.width / 2 / transform.scale,
+        y: event.clientY - clientRect.height / 2 / transform.scale
       })
     }
   }
@@ -55,8 +51,8 @@ export const MovableElement = (props: MovableElementProps) => {
       const scale = event.deltaY > 0 ? (scaleBoundsMin ? 0.75 : 1) : (scaleBoundsMax ? 1.25 : 1)
 
       setTransform({
-        x: event.clientX - clientRect.width / 2,
-        y: event.clientY - clientRect.height / 2,
+        x: event.clientX - clientRect.width / 2 / transform.scale,
+        y: event.clientY - clientRect.height / 2 / transform.scale,
         scale: transform.scale * scale
       })
     }
@@ -70,9 +66,9 @@ export const MovableElement = (props: MovableElementProps) => {
       onMouseMove={handleMouseMove}
       onMouseDown={handleMouseDown}
       onWheel={handleWheel}
-      onMouseLeave={handleMouseLeave}
       ref={movableRef}
     >
+
     </div>
   )
 }
